@@ -1,0 +1,70 @@
+table users {
+  cedula int [pk,not null]
+  nombre varchar(30) [not null]
+  apellido varchar(30) [not null]
+  email varchar(50) [not null]
+  pass varchar(30) [not null]
+  telefono int(10) [not null]
+  sexo varchar(1) [not null]
+  direc varchar(45) [not null]
+  fechnac varchar(50) [not null]
+  fechreg varchar(50) [not null]
+  estado int(1) [default:1]
+  // 1: Estado activo de usuario
+  // 0: Estado inactivo de usuario
+}
+
+table pqrs{
+  id int [pk,increment]
+  cedulauser int [not null]
+  asunto int(2) [not null] // 6 Opciones (Tipo de PQRS)
+  tipoSolicitante int(1) [not null] // 3 Opciones
+  razonS varchar(50) [not null]
+  telefono int(10) [not null]
+  answerPqrs varchar(20) [not null]
+  tema varchar(65) [not null] // Tema de la pqrs
+  message varchar() [not null]
+  archivos1 varchar(30)
+  archivos2 varchar(30)
+  fechpqrs varchar(30) [not null]
+  estado int(1) [default:0]
+  // 1: Pendiente (Esta recibida)
+  // 2: Resuelta
+  // 0: Eliminada
+}
+
+table tipopqrs {
+  id int [pk,increment]
+  nompqrs varchar(20)
+  estado int(1) [default:1]
+  priority varchar(10) [not null] // 3 Opciones
+}
+
+table tipos_solicitante {
+  id int [pk,increment]
+  tiposol varchar(20)
+}
+
+table preguntas_frecuentes {
+  id int [pk,increment]
+  pregunta varchar(256) [not null]
+  respuesta varchar(256) [not null]
+  estado int(1) [default:0]
+  // 1: Visible
+  // 0: Inactiva
+}
+
+table tutoriales {
+  id int [pk,increment]
+  nom varchar(100) [not null]
+  area varchar(10) [not null]
+  url varchar(100) [not null]
+  estado int(1) [default:0]
+  // 1: Visible
+  // 0: Inactiva
+}
+
+ref: tipopqrs.id < pqrs.asunto
+ref: tipos_solicitante.id < pqrs.tipoSolicitante
+ref: users.cedula < pqrs.cedulauser
+
