@@ -30,10 +30,12 @@
         if (method_exists($controller, $metodo)) {
             $controller->$metodo($parametro);
         } else {
-            echo "No existe el metodo";
+            header("location: ".base_url."/Views/Errors");
+            // echo "No existe el metodo";
         }
     } else {
-        echo "No existe el controlador";
+        header("location: ".base_url."/Views/Errors");
+        // echo "No existe el controlador";
     }
 
 ?>

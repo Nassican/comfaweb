@@ -10,6 +10,7 @@
         <script src="<?php echo base_url; ?>Assets/js/jquery-3.6.0.min.js"></script>
         <link href="<?php echo base_url; ?>Assets/css/dataTable.css" rel="stylesheet" />
         <link href="<?php echo base_url; ?>Assets/css/styles.css" rel="stylesheet" />
+        <link href="<?php echo base_url; ?>Assets/css/navbar.css" rel="stylesheet" />
         <script src="<?php echo base_url; ?>Assets/js/all.js" crossorigin="anonymous"></script>
 
         <link href="<?php echo base_url; ?>Assets/css/richtext.min.css" rel="stylesheet" />
@@ -18,20 +19,25 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="<?php echo base_url; ?>Inicio">Confaweb</a>
+            <a class="navbar-brand ps-3" href="<?php echo base_url; ?>Inicio">PQRS</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar-->
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <div class="row ms-auto mx-4 d-flex align-items-center">
+                <!-- <div class="col-3">
+                    <div class="ms-auto mx-4" id="div-perfil">
+                        <img id="user-perfil" src="<?php echo base_url; ?>Img/User/user-1.jpg" alt="">
+                    </div>
+                </div> -->
+                <div class="col-9 d-flex align-items-center m-0">
+                    <a class="nav-link dropdown-toggle text-white text-center mx-0" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Perfil</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url; ?>Usuario/perfil">Perfil</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="<?php echo base_url; ?>Login/salir">Cerrar session</a></li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -42,17 +48,19 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                                 Inicio
                             </a>
-                            <a class="nav-link collapsed" href="<?php echo base_url; ?>PQRSF" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
-                                PQRSF
+                            <a class="nav-link collapsed" href="<?php echo base_url; ?>Buzon" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
+                                Buzon
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?php echo base_url; ?>Buzon/nueva"><i class="fas fa-plus m-2"></i> Nueva</a>
-                                    <a class="nav-link" href="<?php echo base_url; ?>Usuarios"><i class="fas fa-history m-2"></i> Historial</a>
-                                    <a class="nav-link" href="<?php echo base_url; ?>Usuarios"><i class="fas fa-tasks m-2"></i> Seguimiento</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Buzon/seguimiento"><i class="fas fa-tasks m-2"></i> Seguimiento</a>
                                 </nav>
+                            </div>
+                            <div id="admin">
+                                <!-- menu administracion -->
                             </div>
                         </div>
                     </div>

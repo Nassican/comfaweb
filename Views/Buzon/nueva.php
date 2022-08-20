@@ -8,32 +8,35 @@
             <div class="card-body">
                 <form method="post" id="frmSolicitud">
                     <div class="row">
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="nompaciente">Paciente</label>
-                                <input id="idpaciente" class="form-control" type="hidden" name="idpaciente" value="">
-                                <fieldset disabled>
-                                    <input id="paciente" class="form-control" type="text" name="paciente" value="<?php echo $data['usuario']['nombre'].' '.$data['usuario']['apellido']; ?>">
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="acudiente">Acudiente</label>
-                                <fieldset disabled>
-                                    <input id="acudiente" class="form-control" type="text" name="acudiente" value="<?php echo $data['usuario']['nombre'].' '.$data['usuario']['apellido']; ?>">
-                                </fieldset>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="form-group">
-                                <label for="tipopqrsf">Tipo</label>
+                                <label for="tipopqrsf">Tipo:</label>
                                 <select id="tipopqrsf" class="form-select" name="tipopqrsf">
                                     <option value="" selected>Seleccione...</option>
                                     <?php foreach ($data['tipospqrsf'] as $row) { ?>
                                         <option value="<?php echo $row['id']; ?>"><?php echo $row['pqrsf']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="idarea">Dirigido al servicio de:</label>
+                                <select id="idarea" class="form-select" name="idarea">
+                                    <option value="" selected>Seleccione...</option>
+                                    <?php foreach ($data['areas'] as $row) { ?>
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['area']." - ".$row['piso']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="idtipousu">Relacion con el paciente?</label>
+                                <select id="idtipousu" class="form-select" name="idtipousu">
+                                    <option value="" selected>Seleccione...</option>
+                                    <?php foreach ($data['tiposusu'] as $row) { ?>
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

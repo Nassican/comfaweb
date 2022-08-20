@@ -210,6 +210,8 @@ $(document).ready(function(e){
 
 // Fin welect Departamentos - minicipios
 
+// Resgistrar Usuario
+
 function frmRegistrarse(e) {
     e.preventDefault();
 
@@ -259,6 +261,9 @@ function frmRegistrarse(e) {
         document.getElementById("alertcontacto").innerHTML = 'Todos los campos son obligatorios';
     }
 }
+
+
+// Fin resgistrar Usuario
 
 
 function frmContinuar(e) {

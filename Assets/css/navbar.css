@@ -1,0 +1,28 @@
+:root {
+    --black: #000000;
+    --green: #01f101;
+}
+
+#div-perfil {
+    border: 3px solid var(--green);
+    border-radius: 20px;
+    width: 40px;
+    height: 40px;
+    /*background-color: var(--green);*/
+    
+}
+
+#div-perfil > p {
+    width: 24px;
+    margin-top: 11px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#user-perfil {
+    border-radius: 20px;
+    width: 34px;
+    height: 34px;
+}

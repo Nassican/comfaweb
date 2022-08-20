@@ -119,6 +119,12 @@
             echo json_encode($msg, JSON_UNESCAPED_UNICODE); // para mostrar caracteres especiales como tildes y ñ
             die();
         }
+
+        public function salir()
+        {
+            session_destroy();
+            header("location: ".base_url);
+        }
     }
 
 ?>

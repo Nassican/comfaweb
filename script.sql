@@ -1245,7 +1245,6 @@ INSERT INTO `tiposdoc` (`tipodoc`, `nomdoc`) VALUES
 INSERT INTO `tipospqrsf` (`pqrsf`, `prioridad`) VALUES
 ('Peticion', 1),
 ('Reclamo', 1),
-('Denuncia', 2),
 ('Sugerencia', 2),
 ('Queja', 3),
 ('Felicitacion', 3);
@@ -1263,3 +1262,175 @@ ALTER TABLE pacientes DROP COLUMN idbuzon;
 
 -- agregar relacion tipo de doc de paciente con la tabla tipos de documentos
 ALTER TABLE pacientes ADD FOREIGN KEY (idtipodoc) REFERENCES tiposdoc (id);
+
+-- ============================================================================
+-- MODIFICACIONES EN LA BASE DE DATOS   -   UPDATE 05/07/2022
+-- ============================================================================
+-- Quitar colmna de idpacientes de la tabla buzon
+ALTER TABLE buzon DROP COLUMN idpaciente;
+
+-- Agregar columna a la tabla pacientes
+-- Columna con 'idbuzon' para llevar una relacion de los pacientes de cada solicitud
+ALTER TABLE pacientes ADD idbuzon int AFTER documento;
+ALTER TABLE pacientes ADD FOREIGN KEY (idbuzon) REFERENCES buzon(id);
+
+-- ============================================================================
+-- MODIFICACIONES EN LA BASE DE DATOS   -   UPDATE 06/07/2022
+-- ============================================================================
+-- quitar colimna idbuzon de la tabla buzon
+ALTER TABLE pacientes DROP FOREIGN KEY pacientes_ibfk_2;
+ALTER TABLE pacientes DROP INDEX idbuzon;
+ALTER TABLE pacientes DROP COLUMN idbuzon;
+
+-- agregar la columna docpaciente en la tabla buzon (not null)
+ALTER TABLE buzon ADD docpaciente varchar(20) AFTER idusuario;
+
+-- agregar propiedad unique a la colunma documento de la tabla pacientes
+ALTER TABLE pacientes ADD UNIQUE(documento);
+
+-- agregar relacion entre la tabla buzon y la tabla paciente
+ALTER TABLE buzon ADD FOREIGN KEY (docpaciente) REFERENCES pacientes(documento);
+
+-- ============================================================================
+-- MODIFICACIONES EN LA BASE DE DATOS   -   UPDATE 08/07/2022
+-- ============================================================================
+-- eliminar atributo de la relacion de la tabla buzon
+ALTER TABLE buzon DROP FOREIGN KEY buzon_ibfk_3;
+ALTER TABLE buzon DROP INDEX docpaciente;
+ALTER TABLE buzon DROP COLUMN docpaciente;
+
+-- eliminar la tabla pacientes
+DROP TABLE pacientes;
+-- ============================================================================
+-- MODIFICACIONES EN LA BASE DE DATOS   -   UPDATE 11/07/2022
+-- ============================================================================
+-- |||||                   GRAN MODIFICACION TABLA BUZON                  |||||
+-- Crear tabla servicios
+CREATE TABLE areas (
+  id int(11) NOT NULL,
+  area varchar(20) NOT NULL,
+  piso int(11) NOT NULL,
+  estado int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- poblar tabla
+
+INSERT INTO areas (id, area, piso, estado) VALUES
+(1, 'Urgencias', 1, 1),
+(2, 'SIAU', 1, 1),
+(3, 'Hospitalizacion', 4, 1),
+(4, 'Hospitalizacion', 2, 1),
+(5, 'Quirofano', 1, 1),
+(6, 'Rayos X', 1, 1),
+(7, 'Farmacia', 3, 1),
+(8, 'Laboratorio', 3, 1),
+(9, 'Servidor', 3, 1),
+(10, 'Historia clinica', 3, 1),
+(11, 'Calidad', 3, 1),
+(12, 'UCI', 5, 1),
+(13, 'Contablilidad', 6, 1),
+(14, 'Facturacion', 6, 1),
+(15, 'Gerencia', 6, 1),
+(16, 'Administrativos', 6, 1),
+(17, 'Sistemas', 6, 1),
+(18, 'Mantenimiento', 6, 1),
+(19, 'Biomedico', 6, 1);
+
+ALTER TABLE areas ADD PRIMARY KEY (id);
+
+ALTER TABLE areas MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+-- crear tabla RESPUESTAS
+CREATE TABLE respuestas (
+  id int(11) NOT NULL,
+  idbuzon int(11) NOT NULL,
+  idadmin int(11) NOT NULL,
+  problema text NOT NULL,
+  investigacion text NOT NULL,
+  conclusion text NOT NULL,
+  resuelto int(11) NOT NULL DEFAULT 0,
+  fechareg date NOT NULL,
+  estado int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE respuestas ADD PRIMARY KEY (id);
+
+ALTER TABLE respuestas MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE respuestas ADD FOREIGN KEY (idbuzon) REFERENCES buzon(id);
+ALTER TABLE respuestas ADD FOREIGN KEY (idadmin) REFERENCES usuarios(id);
+
+-- crear tabla Tipo usuario
+CREATE TABLE tiposusuario (
+  id int(11) NOT NULL,
+  tipo varchar(50) NOT NULL,
+  estado int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE tiposusuario ADD PRIMARY KEY (id);
+
+ALTER TABLE tiposusuario MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+INSERT INTO tiposusuario (tipo) VALUES
+('Paciente (el mismo que reporta)'),
+('Familiar'),
+('Amigo'),
+('Cónyuge');
+
+
+-- MODIFICAR tabla buzon
+-- agregar columnas
+ALTER TABLE buzon ADD idtipousu int DEFAULT NULL AFTER idusuario;
+ALTER TABLE buzon ADD idarea int DEFAULT NULL AFTER idtipo;
+
+-- llaves foraneas
+ALTER TABLE buzon ADD FOREIGN KEY (idtipousu) REFERENCES tiposusuario(id);
+ALTER TABLE buzon ADD FOREIGN KEY (idarea) REFERENCES areas(id);
+
+-- Crear tablas para los roles
+CREATE TABLE permisos (
+  id int(11) NOT NULL,
+  permiso char(5) NOT NULL,
+  estado int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE permisos ADD PRIMARY KEY (id);
+ALTER TABLE permisos MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+INSERT INTO permisos (permiso) VALUES
+('admin');
+
+-- Crear la tabla detalles permisos
+CREATE TABLE permisosusu (
+  id int(11) NOT NULL,
+  idusuario int(11) NOT NULL,
+  idpermiso int(11) NOT NULL,
+  estado int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE permisosusu ADD PRIMARY KEY (id);
+ALTER TABLE permisosusu MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE permisosusu ADD FOREIGN KEY (idusuario) REFERENCES usuarios(id);
+ALTER TABLE permisosusu ADD FOREIGN KEY (idpermiso) REFERENCES permisos(id);
+-- crear tabla pruebas
+CREATE TABLE pruebas (
+  id int(11) NOT NULL,
+  idbuzon int(11) NOT NULL,
+  ruta varchar(50) NOT NULL,
+  estado int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE pruebas ADD PRIMARY KEY (id);
+ALTER TABLE pruebas MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE pruebas ADD UNIQUE (ruta);
+ALTER TABLE pruebas ADD FOREIGN KEY (idbuzon) REFERENCES buzon(id);
+
+ALTER TABLE pruebas ADD nombre varchar(50) DEFAULT NULL AFTER ruta;
+
+-- ============================================================================
+-- |||||||||||||||||||||||   SERVIDOR    ||||||||||||||||||||||||||||||||||||||
+-- ============================================================================
+-- ============================================================================
+-- ||||||||||||||||||||||   FIN SERVIDOR    |||||||||||||||||||||||||||||||||||
+-- ============================================================================
+

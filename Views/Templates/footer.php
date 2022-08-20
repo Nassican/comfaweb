@@ -3,7 +3,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; @yorth21 2022</div>
+                            <div class="text-muted">Copyright &copy; @Comfamiliar 2022</div>
                         </div>
                     </div>
                 </footer>
@@ -19,5 +19,6 @@
         </script>
         <script src="<?php echo base_url; ?>Assets/js/sweetalert2.all.min.js"></script>
         <script src="<?php echo base_url; ?>Assets/js/funciones.js"></script>
+        
     </body>
 </html>
